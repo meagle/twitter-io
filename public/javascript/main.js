@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     socket.on('message', function(data) { 
     var div = $("<div></div>")
-        .html("<span style='font-weight:bold'>" + data.user.screen_name + "</span><span>" +  data.text + "</span>")
+        .html("<img src='" + data.user.profile_image_url + "'</img><span style='font-weight:bold'>" + data.user.screen_name + "</span><span>" +  data.text + "</span>")
         .addClass('word');
 
     $(".tweets").prepend(div);
