@@ -24,11 +24,11 @@ module.exports = (app) ->
   
   # Load 500 page
   
-  # app.use(function(err, req, res){
-  #   console.log(err);
-  #   res.status(500);
-  #   res.render('home/500', {
-  #     error: err
-  #   });
-  # });
+  app.use (err, req, res)->
+    console.log err
+    res.status 500
+    res.render 'home/500', {
+      error: err
+    }
+    
   app

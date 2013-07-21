@@ -8,6 +8,13 @@
       return Error.captureStackTrace(this, arguments_.callee);
     };
     NotFound.prototype.__proto__ = Error.prototype;
+    app.use(function(err, req, res) {
+      console.log(err);
+      res.status(500);
+      return res.render('home/500', {
+        error: err
+      });
+    });
     return app;
   };
 

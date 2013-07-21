@@ -1,0 +1,12 @@
+extends layout.jade
+
+block content
+  .controls
+    form.well
+      label Track
+      input.span(type="text", name='tweet[track]')
+      .form-action
+        input.btn(type = 'submit', value = 'Change Track')
+
+  .tweets
+
