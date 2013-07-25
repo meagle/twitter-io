@@ -6,7 +6,7 @@ try {
   process.env.NODE_PATH = path.join(__dirname, '/../node_modules') + ':' + process.env.NODE_PATH
 }
 
-require('./lib/exceptions')
+// require('./lib/exceptions')
 
 if(!process.env.NODE_ENV) process.env.NODE_ENV="development"
 
