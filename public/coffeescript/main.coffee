@@ -12,11 +12,12 @@ require.config
     io                      : "/socket.io/socket.io"
 
     # twitterio               : "twitterio"
-    # tweet                   : "models/Tweet"
+    tweet                   : "models/Tweet"
 
-    # tweets                  : "collections/Tweets"
+    tweets                  : "collections/Tweets"
 
-    # alertModalView          : "views/AlertModalView"
+    tweetsView              : "views/tweetsView"
+    tweetView               : "views/tweetView"
 
   shim:
     jquery:

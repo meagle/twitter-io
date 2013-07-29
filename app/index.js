@@ -20,7 +20,7 @@
     var app, changeTrack, compile, track, twit;
     app = express();
     compile = function(str, path) {
-      return stylus(str).set("filename", path).include(nib.path);
+      return stylus(str).set("filename", path).use(nib());
     };
     app.use(express.logger("\u001b[90m:method\u001b[0m \u001b[36m:url\u001b[0m \u001b[90m:response-time ms\u001b[0m"));
     app.use(express.methodOverride());
@@ -34,15 +34,15 @@
       secret: "doyouwannaknowmysecret?"
     }));
     app.use(app.router);
-    app.use(express["static"](__dirname + "/../public"));
     app.set("view engine", "jade");
     app.set("views", __dirname + "/views");
     app.use(stylus.middleware({
-      src: __dirname + "/../public",
-      compile: compile
+      debug: true,
+      src: __dirname + "/../public"
     }));
+    app.use(express["static"](__dirname + "/../public"));
     twit = new twitter(keys);
-    track = "test";
+    track = "wimbledon";
     changeTrack = function(_track, client) {
       return twit.stream("statuses/filter", {
         track: _track

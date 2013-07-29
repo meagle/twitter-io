@@ -4,23 +4,54 @@ define (require)->
   _           = require 'lodash'
   io          = require 'io'
   Marionette  = require 'marionette'
+  Tweets      = require 'tweets'
+  TweetsView  = require 'tweetsView'
 
-    
-  socket = io.connect()
-  socket.on "connect", ->
-    console.log "connected"
+  window.app = app = new Marionette.Application()
 
-  socket.on "message", (data) ->
-    div = $("<div></div>").html("<img src='" + data.user.profile_image_url + "'</img><span style='font-weight:bold'>" + data.user.screen_name + "</span><span>" + data.text + "</span>").addClass("word")
-    $(".tweets").prepend div
+  tweets = new Tweets()
+
+  viewOptions = 
+    collection: tweets
+
+  # header = new Header viewOptions
+  tweetsView = new TweetsView viewOptions
+  # footer = new Footer viewOptions
+
+  app.addRegions
+    # TODO: implement these views
+    # header: '#header'
+    # footer: '#footer'
+    main:   '.tweets-container'
+
+  app.addInitializer ->
+    # app.header.show header
+    # app.footer.show footer
+    app.main.show tweetsView
+
+  #Consider adding a controller for this stuff
+  # app.listenTo tweets, 'all' ->
+    # TODO: do some work to reflect tweets
+
+  # app.vent.on 'tweets:clear' ->
+    # TODO: remove all tweets
+
+  app.on 'initialize:after', ->
+
+    socket = io.connect()
+    socket.on "connect", ->
+      console.log "Connected!"
+
+    socket.on "message", (data) ->
+      tweets.add data
 
 
-  #- TODO: replace this crap when switching to Backbone
-  $("form").on "submit", (e) ->
-    e.preventDefault()
-    console.log "Changing track", $("form > input").val()
-    socket.emit "change_track",
-      track: $("form > input").val()
+    #- TODO: move this crap to a view 
+    $("form").on "submit", (e) ->
+      e.preventDefault()
+      console.log "Changing track", $("form > input").val()
+      socket.emit "change_track",
+        track: $("form > input").val()
 
-    socket.socket.disconnect()
-    socket.socket.reconnect()
+      socket.socket.disconnect()
+      socket.socket.reconnect()

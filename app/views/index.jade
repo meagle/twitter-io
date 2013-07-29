@@ -2,11 +2,11 @@ extends layout.jade
 
 block content
   .controls
-    form.well
-      label Track
-      input.span(type="text", name='tweet[track]')
-      .form-action
-        input.btn(type = 'submit', value = 'Change Track')
+    form.form-search.well
+      input.input-medium.search-query(type="text", name='tweet[track]') 
+      input.btn(type='submit', value='Change Track')
 
-  .tweets
+  .tweets-container
+
+
 

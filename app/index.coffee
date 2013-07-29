@@ -8,11 +8,10 @@ http        = require("http")
 
 module.exports = (socket)->
   app = express()
-  # server = http.createServer(app)
-  # socket = require("socket.io").listen(server)
 
   compile = (str, path) ->
-    stylus(str).set("filename", path).include nib.path
+    # stylus(str).set("filename", path).include nib.path
+    stylus(str).set("filename", path).use(nib())
 
   app.use express.logger("\u001b[90m:method\u001b[0m \u001b[36m:url\u001b[0m \u001b[90m:response-time ms\u001b[0m")
   app.use express.methodOverride()
@@ -25,17 +24,17 @@ module.exports = (socket)->
   app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
   app.use app.router
 
-  app.use(express.static(__dirname + "/../public"))
   app.set("view engine", "jade")
   app.set("views", __dirname + "/views")
-  app.use stylus.middleware(
+  app.use stylus.middleware
+    debug: true
     src: __dirname + "/../public"
-    compile: compile
-  )
+    # compile: compile
 
+  app.use(express.static(__dirname + "/../public"))
 
   twit = new twitter keys
-  track = "test"
+  track = "wimbledon"
 
   changeTrack = (_track, client) ->
     twit.stream "statuses/filter",

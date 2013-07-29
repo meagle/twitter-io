@@ -1,50 +1,47 @@
-@import 'nib'
-
-light = #a9a9a9
-lighter = #eee
-blue = #00ABFA
-dark = #222
-
-@import 'import/_mixins'
-
-@import 'import/_globals'
-
 .container
   margin-top: 15px
 
-// blog post
+  form
+    &.form-search
+      margin-bottom: 0
+      border-radius: 0
+      input.btn
+        margin-left: 5px
 
-.delete,
-.edit
-  color #666
-  cursor pointer
-  float right
-  margin-left 5px
-  text-decoration none
+.tweets-container
+  border-left: 1px solid lightgray
+  border-right: 1px solid lightgray
 
-.edit-mode
-  .hide
-    display block !important
-  .show
-    display none !important
-  
-//everythign else
-
-ul#flash
-  fixed top 10px left 15px
-  z-index 200
-  margin 0
-  padding 0
-  li
+  ul.tweets
     list-style: none
-    margin 8px 0
-    padding 8px 15px
-    border 1px solid light
-    border-radius 5px
-    font-size 12px
-    background white
-    box-shadow 0 0 4px lighter 
+    margin: 0
 
-h2
-  text-shadow 1px 1px 0 white
-  color #58575A
+    > li
+      padding: 0 0 10px 10px
+      padding-bottom: 10px
+      border-bottom: dotted 1px lightgray
+      margin-bottom: 10px
+
+      .avatar
+        float: left
+        text-align: center
+        width: 80px
+        height: 50px
+        vertical-align: top
+        margin-top: 5px
+
+        > img
+          border-radius: 6px
+
+      .details
+        margin: 0 20px 0 80px
+
+        div:first-child
+          font-weight: bold
+
+      .tweet-footer
+        clear: both
+
+
+
+

@@ -13,7 +13,11 @@
       backbone: "/twitterio/components/backbone/backbone",
       marionette: "/twitterio/components/backbone.marionette/lib/backbone.marionette",
       bootstrap: "/twitterio/components/bootstrap/js/bootstrap",
-      io: "/socket.io/socket.io"
+      io: "/socket.io/socket.io",
+      tweet: "models/Tweet",
+      tweets: "collections/Tweets",
+      tweetsView: "views/tweetsView",
+      tweetView: "views/tweetView"
     },
     shim: {
       jquery: {

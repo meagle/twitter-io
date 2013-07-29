@@ -13,14 +13,18 @@ html(lang="en")
     link(rel="apple-touch-icon-precomposed", sizes="114x114", href="/images/ico/apple-touch-icon-114-precomposed.png")
     link(rel="apple-touch-icon-precomposed", sizes="72x72", href="/images/ico/apple-touch-icon-72-precomposed.png")
     link(rel="apple-touch-icon-precomposed", href="/images/ico/apple-touch-icon-57-precomposed.png")
-    //- script(src="/twitterio/javascript/jquery.js")
-    //- script(src="/twitterio/javascript/bootstrap.js")
-    //- script(src= "/socket.io/socket.io.js")
-    //- script(src= "/twitterio/javascript/jquery.js")
-    //- script(src= '/twitterio/javascript/app.js')
     script(data-main="/twitterio/javascript/main", src="/twitterio/components/requirejs/require.js")
+    script(id='tweetTpl', type='text/html')
+      |   <div class="avatar">
+      |     <img src="<%=user.profile_image_url%>"/>
+      |   </div>
+      |   <div class="details">
+      |     <div>@<%=user.screen_name%></div>
+      |     <div><%=text%></div>
+      |   </div>
+
   body
-    .navbar.navbar-static-top
+    .navbar.navbar-static-top.navbar-inverse
       .navbar-inner
         .container
           a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
