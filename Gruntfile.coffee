@@ -28,6 +28,12 @@ module.exports = (grunt) ->
           src: "**/*.coffee"
           dest: 'public/javascript'
           ext: '.js'}
+        ,{
+          cwd: 'models/'
+          expand: true
+          src: "**/*.coffee"
+          dest: 'models'
+          ext: '.js'}
         ]
         options:
           sourceMap: false
