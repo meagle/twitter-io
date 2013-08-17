@@ -21,7 +21,8 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-notify": "~0.2.3",
     "passport-twitter": "~0.1.5",
-    "passport": "~0.1.17"
+    "passport": "~0.1.17",
+    "underscore": "~1.5.1"
   },
   "main": "./index.js",
   "engines": {

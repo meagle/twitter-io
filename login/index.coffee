@@ -1,9 +1,10 @@
-passport    = require("passport")
-express     = require("express")
-stylus      = require("stylus")
-nib         = require("nib")
-# mongoose    = require("mongoose")
-keys        = require("../config/keys")()
+passport    = require "passport"
+express     = require "express"
+stylus      = require "stylus"
+nib         = require "nib"
+mongoose    = require "mongoose"
+keys        = require "../config/keys"
+User        = require "../models/user"
 
 module.exports = ->
   app = express()
@@ -17,28 +18,39 @@ module.exports = ->
   app.use(app.router);
 
   passport.serializeUser (user, done) ->
-    console.log 'passport.serializeUser', user
-    done null, user.id
+    console.log 'passport.serializeUser', user.id_str
+    done null, user.id_str
 
   passport.deserializeUser (id, done) ->
-    # User.findOne id, (err, user) ->
+    User.findOne id, (err, user) ->
       # done err, user
-    console.log 'passport.deserializeUser id: ', id
-    done null, id
-
+      console.log 'passport.deserializeUser user: ', user
+      done err, user
 
 
   TwitterStrategy = require("passport-twitter").Strategy
-  passport.use new TwitterStrategy(
+  passport.use new TwitterStrategy
     consumerKey: keys.consumer_key
     consumerSecret: keys.consumer_secret
+    #TODO: derive the domain and port
     callbackURL: "http://localhost:3000/login/auth/twitter/callback"
   , (token, tokenSecret, profile, done) ->
-    console.log 'token: ', token
-    console.log 'tokenSecret: ', tokenSecret
-    console.log 'profile: ', profile
-    done(null, profile);
-  )
+    # console.log 'profile: ', profile._json
+
+    profile = profile._json
+    profile.token = token
+    profile.tokenSecret = tokenSecret
+    User.findOne id_str: profile.id_str, (err, user)->
+
+      return done(err) if err
+
+      unless user
+        new User(profile).save (err, user)->
+          return done(err) if err
+          done null, user
+      else
+        done null, user
+  
 
 
   # Redirect the user to Twitter for authentication.  When complete, Twitter

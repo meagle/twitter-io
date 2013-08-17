@@ -1,5 +1,5 @@
 express         = require("express")
-# mongoose        = require("mongoose")
+mongoose        = require("mongoose")
 stylus          = require("stylus")
 nib             = require("nib")
 # models          = require("./models")
@@ -25,10 +25,8 @@ module.exports = ->
   app.use stylus.middleware
     debug: true
     src: __dirname + "/../public"
-    # compile: compile
 
-  # app.use(express.static(__dirname + "/../public"))
-
+  mongoose.connect('mongodb://localhost/twitterio');
 
   server = http.createServer(app)
   socket = require("socket.io").listen(server)

@@ -1,10 +1,12 @@
-express     = require("express")
-stylus      = require("stylus")
-nib         = require("nib")
-mongoose    = require("mongoose")
+express     = require 'express'
+stylus      = require 'stylus'
+nib         = require 'nib'
+mongoose    = require 'mongoose'
+User        = require "../models/user"
 twitter     = require "ntwitter"
-keys        = require("../config/keys")()
-http        = require("http")
+keys        = require "../config/keys"
+http        = require 'http'
+_           = require 'underscore'
 
 module.exports = (socket)->
   app = express()
@@ -13,7 +15,6 @@ module.exports = (socket)->
   app.use app.router
 
   app.set("views", __dirname + "/views")
-
   app.use(express.static(__dirname + "/../public"))
 
   #TODO: merge in the user's access token and secret 
@@ -40,6 +41,10 @@ module.exports = (socket)->
       changeTrack track, client
 
   app.get '/', (req, res, next)-> 
-    console.log 'USER: ', req.session.passport?.user
-    res.render "index", {}
+    userId = req.session.passport?.user
+    if userId
+      User.findOne id_str: userId, (err, user)->
+        res.render "index", user
+    else
+      res.render "index", {}
 
