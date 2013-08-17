@@ -35,6 +35,6 @@ from the root of this project.  Or just run:
 
 ### Browser
 
-Point your browser at http://localhost:3000/twitterio and enter tracks as strings separated by commas to start streaming Tweets.  
+Point your browser at http://localhost:3000 and enter tracks as strings separated by commas to start streaming Tweets.  
 
 ![Screenshot](https://github.com/meagle/twitter-io/raw/master/public/images/twitterio-screenshot.png)
