@@ -17,29 +17,13 @@
   http = require("http");
 
   module.exports = function(socket) {
-    var app, changeTrack, compile, track, twit;
+    var app, changeTrack, track, twit;
     app = express();
-    compile = function(str, path) {
-      return stylus(str).set("filename", path).use(nib());
-    };
-    app.use(express.logger("\u001b[90m:method\u001b[0m \u001b[36m:url\u001b[0m \u001b[90m:response-time ms\u001b[0m"));
-    app.use(express.methodOverride());
-    app.use(express.cookieParser());
-    app.use(express.bodyParser());
-    app.use(express.errorHandler({
-      dumpException: true,
-      showStack: true
-    }));
     app.use(express.cookieSession({
       secret: "doyouwannaknowmysecret?"
     }));
     app.use(app.router);
-    app.set("view engine", "jade");
     app.set("views", __dirname + "/views");
-    app.use(stylus.middleware({
-      debug: true,
-      src: __dirname + "/../public"
-    }));
     app.use(express["static"](__dirname + "/../public"));
     twit = new twitter(keys);
     track = "wimbledon";
@@ -65,6 +49,8 @@
       });
     });
     return app.get('/', function(req, res, next) {
+      var _ref;
+      console.log('USER: ', (_ref = req.session.passport) != null ? _ref.user : void 0);
       return res.render("index", {});
     });
   };

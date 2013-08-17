@@ -1,6 +1,6 @@
 # twitter-io
 
-This is a simple app that uses the streaming API from Twitter via nTwitter with Node.js, Jade, Socket.io, Backbone.js, Marionette.js, require.js, Twitter Bootstrap, Stylus, etc
+This is a simple app that uses the streaming API from Twitter via nTwitter with Node.js, Jade, Socket.io, Backbone.js, Marionette.js, require.js, Twitter Bootstrap, Stylus, etc.  
 
 
 ### Twitter Keys

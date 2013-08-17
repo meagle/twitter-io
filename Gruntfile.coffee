@@ -11,6 +11,12 @@ module.exports = (grunt) ->
           dest: 'app'
           ext: '.js'}
         ,{
+          cwd: 'login/'
+          expand: true
+          src: "**/*.coffee"
+          dest: 'login'
+          ext: '.js'}
+        ,{
           cwd: 'config/'
           expand: true
           src: "**/*.coffee"

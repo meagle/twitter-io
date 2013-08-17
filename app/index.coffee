@@ -9,30 +9,15 @@ http        = require("http")
 module.exports = (socket)->
   app = express()
 
-  compile = (str, path) ->
-    # stylus(str).set("filename", path).include nib.path
-    stylus(str).set("filename", path).use(nib())
-
-  app.use express.logger("\u001b[90m:method\u001b[0m \u001b[36m:url\u001b[0m \u001b[90m:response-time ms\u001b[0m")
-  app.use express.methodOverride()
-  app.use express.cookieParser()
-  app.use express.bodyParser()
-  app.use express.errorHandler
-    dumpException: true
-    showStack: true
-
   app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
   app.use app.router
 
-  app.set("view engine", "jade")
   app.set("views", __dirname + "/views")
-  app.use stylus.middleware
-    debug: true
-    src: __dirname + "/../public"
-    # compile: compile
 
   app.use(express.static(__dirname + "/../public"))
 
+  #TODO: merge in the user's access token and secret 
+  #      with the consumer keys
   twit = new twitter keys
   track = "wimbledon"
 
@@ -55,5 +40,6 @@ module.exports = (socket)->
       changeTrack track, client
 
   app.get '/', (req, res, next)-> 
-  	res.render "index", {}
+    console.log 'USER: ', req.session.passport?.user
+    res.render "index", {}
 
