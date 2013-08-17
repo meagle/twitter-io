@@ -21,7 +21,7 @@
   _ = require('underscore');
 
   module.exports = function(socket) {
-    var app, changeTrack, track, twit;
+    var app, changeTrack, track;
     app = express();
     app.use(express.cookieSession({
       secret: "doyouwannaknowmysecret?"
@@ -29,10 +29,9 @@
     app.use(app.router);
     app.set("views", __dirname + "/views");
     app.use(express["static"](__dirname + "/../public"));
-    twit = new twitter(keys);
     track = "wimbledon";
     changeTrack = function(_track, client) {
-      return twit.stream("statuses/filter", {
+      return this.twit.stream("statuses/filter", {
         track: _track
       }, function(stream) {
         stream.on("data", function(data) {
@@ -53,16 +52,21 @@
       });
     });
     return app.get('/', function(req, res, next) {
-      var userId, _ref;
+      var userId, _ref,
+        _this = this;
       userId = (_ref = req.session.passport) != null ? _ref.user : void 0;
       if (userId) {
         return User.findOne({
           id_str: userId
         }, function(err, user) {
+          _this.twit = new twitter(_.extend(keys, {
+            access_token_key: user.token,
+            access_token_secret: user.tokenSecret
+          }));
           return res.render("index", user);
         });
       } else {
-        return res.render("index", {});
+        return res.redirect("/login");
       }
     });
   };

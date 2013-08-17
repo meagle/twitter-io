@@ -17,13 +17,10 @@ module.exports = (socket)->
   app.set("views", __dirname + "/views")
   app.use(express.static(__dirname + "/../public"))
 
-  #TODO: merge in the user's access token and secret 
-  #      with the consumer keys
-  twit = new twitter keys
   track = "wimbledon"
 
   changeTrack = (_track, client) ->
-    twit.stream "statuses/filter",
+    @twit.stream "statuses/filter",
       track: _track
     , (stream) ->
       stream.on "data", (data) ->
@@ -43,8 +40,11 @@ module.exports = (socket)->
   app.get '/', (req, res, next)-> 
     userId = req.session.passport?.user
     if userId
-      User.findOne id_str: userId, (err, user)->
+      User.findOne id_str: userId, (err, user)=>
+        @twit = new twitter _.extend keys, 
+          access_token_key    : user.token
+          access_token_secret : user.tokenSecret
         res.render "index", user
     else
-      res.render "index", {}
+      res.redirect "/login"
 
