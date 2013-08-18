@@ -5,7 +5,7 @@ This is a simple app that uses the streaming API from Twitter via nTwitter with 
 
 ### Twitter Keys
 
-If you are going to try this out for yourself then you will need to get a developer Twitter account so you can add your consumer and access token keys.  You can generate these on Twitter's developer site here: [dev.twitter.com](https://dev.twitter.com/) and create a new application
+If you are going to try this out for yourself then you will need to get a developer Twitter account so you can add your consumer  keys.  You can generate these on Twitter's developer site here: [dev.twitter.com](https://dev.twitter.com/) and create a new application
 
 ### NPM Modules
 
