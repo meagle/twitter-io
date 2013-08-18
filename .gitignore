@@ -1,4 +1,4 @@
 node_modules
-config/keys.coffee
-config/keys.js
+lib/config/keys.coffee
+lib/config/keys.js
 .idea/

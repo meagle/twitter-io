@@ -12,7 +12,7 @@ module.exports = ->
   app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
   app.set("views", __dirname + "/views")
 
-  app.use(express.static(__dirname + "/../public"))
+  app.use(express.static(__dirname + "/../../public"))
   app.use(passport.initialize());
   app.use(passport.session()); 
   app.use(app.router);
@@ -35,7 +35,6 @@ module.exports = ->
     #TODO: derive the domain and port
     callbackURL: "http://localhost:3000/login/auth/twitter/callback"
   , (token, tokenSecret, profile, done) ->
-    # console.log 'profile: ', profile._json
 
     profile = profile._json
     profile.token = token

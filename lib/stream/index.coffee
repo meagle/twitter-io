@@ -15,7 +15,7 @@ module.exports = (socket)->
   app.use app.router
 
   app.set("views", __dirname + "/views")
-  app.use(express.static(__dirname + "/../public"))
+  app.use(express.static(__dirname + "/../../public"))
 
   track = "wimbledon"
 

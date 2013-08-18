@@ -5,22 +5,28 @@ module.exports = (grunt) ->
     coffee:
       compile:
         files: [{
-          cwd: 'app/'
-          expand: true
-          src: "**/*.coffee"
-          dest: 'app'
+          cwd: '.'
+          # expand: true
+          src: "index.coffee"
+          dest: 'index.js'
           ext: '.js'}
         ,{
-          cwd: 'login/'
+          cwd: 'lib/stream/'
           expand: true
           src: "**/*.coffee"
-          dest: 'login'
+          dest: 'lib/stream'
           ext: '.js'}
         ,{
-          cwd: 'config/'
+          cwd: 'lib/login/'
           expand: true
           src: "**/*.coffee"
-          dest: 'config'
+          dest: 'lib/login'
+          ext: '.js'}
+        ,{
+          cwd: 'lib/config/'
+          expand: true
+          src: "**/*.coffee"
+          dest: 'lib/config'
           ext: '.js'}
         ,{
           cwd: 'public/coffeescript/'
@@ -29,10 +35,10 @@ module.exports = (grunt) ->
           dest: 'public/javascript'
           ext: '.js'}
         ,{
-          cwd: 'models/'
+          cwd: 'lib/models/'
           expand: true
           src: "**/*.coffee"
-          dest: 'models'
+          dest: 'lib/models'
           ext: '.js'}
         ]
         options:
