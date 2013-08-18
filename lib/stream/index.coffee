@@ -19,8 +19,8 @@ module.exports = (socket)->
 
   track = "wimbledon"
 
-  changeTrack = (_track, client) ->
-    @twit.stream "statuses/filter",
+  changeTrack = (_track, client, twit) ->
+    twit.stream "statuses/filter",
       track: _track
     , (stream) ->
       stream.on "data", (data) ->
@@ -29,21 +29,23 @@ module.exports = (socket)->
       stream.on "destroy", (response) ->
         console.log "Destroying stream..."
 
-  socket.on "connection", (client) ->
-    console.log "Connected!"
-    changeTrack track, client
-    client.on "change_track", (_track) ->
-      track = _track.track
-      console.log "Using track(s): ", track
-      changeTrack track, client
-
   app.get '/', (req, res, next)-> 
     userId = req.session.passport?.user
     if userId
       User.findOne id_str: userId, (err, user)=>
-        @twit = new twitter _.extend keys, 
+        twit = new twitter _.extend keys, 
           access_token_key    : user.token
           access_token_secret : user.tokenSecret
+
+        socket.on "connection", (client) ->
+          console.log "Connected!"
+          changeTrack track, client, twit
+          client.on "change_track", (_track) ->
+            track = _track.track
+            console.log "Using track(s): ", track
+            changeTrack track, client, twit
+
+
         res.render "index", user
     else
       res.redirect "/login"
