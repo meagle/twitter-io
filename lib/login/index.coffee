@@ -9,13 +9,13 @@ User        = require "../models/user"
 module.exports = ->
   app = express()
 
-  app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
-  app.set("views", __dirname + "/views")
+  app.use express.cookieSession secret: "doyouwannaknowmysecret?"
+  app.set "views", __dirname + "/views"
 
-  app.use(express.static(__dirname + "/../../public"))
-  app.use(passport.initialize());
-  app.use(passport.session()); 
-  app.use(app.router);
+  app.use express.static(__dirname + "/../../public")
+  app.use passport.initialize()
+  app.use passport.session()
+  app.use app.router
 
   passport.serializeUser (user, done) ->
     console.log 'passport.serializeUser', user.id_str
