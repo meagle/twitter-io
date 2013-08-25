@@ -32,12 +32,11 @@
       });
       return $("form").on("submit", function(e) {
         e.preventDefault();
-        console.log("Changing track", $("form > input").val());
-        socket.emit("change_track", {
-          track: $("form > input").val()
+        console.log("Changing track", $(".search-query").data('userid'), $(".search-query").val());
+        return socket.emit("change_track", {
+          track: $(".search-query").val(),
+          userId: $(".search-query").data('userid')
         });
-        socket.socket.disconnect();
-        return socket.socket.reconnect();
       });
     });
   });

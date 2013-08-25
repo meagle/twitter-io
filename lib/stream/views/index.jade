@@ -1,10 +1,10 @@
 extends layout.jade
 
 block content
-  h4 @#{screen_name}
+  h4 @#{user.screen_name}  
   .controls
     form.form-search.well
-      input.input-medium.search-query(type="text", name='tweet[track]') 
+      input.input-medium.search-query(type="text", name='tweet[track]', data-userId ="#{userId}") 
       input.btn(type='submit', value='Change Track')
 
   .tweets-container

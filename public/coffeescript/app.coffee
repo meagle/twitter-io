@@ -49,9 +49,8 @@ define (require)->
     #- TODO: move this crap to a view 
     $("form").on "submit", (e) ->
       e.preventDefault()
-      console.log "Changing track", $("form > input").val()
+      console.log "Changing track", $(".search-query").data('userid'), $(".search-query").val()
       socket.emit "change_track",
-        track: $("form > input").val()
+        track   : $(".search-query").val()
+        userId  : $(".search-query").data 'userid'
 
-      socket.socket.disconnect()
-      socket.socket.reconnect()

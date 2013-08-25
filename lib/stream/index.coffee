@@ -8,7 +8,7 @@ keys        = require "../config/keys"
 http        = require 'http'
 _           = require 'underscore'
 
-module.exports = (socket)->
+module.exports = (io)->
   app = express()
 
   app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
@@ -17,35 +17,47 @@ module.exports = (socket)->
   app.set "views", __dirname + "/views"
   app.use express.static "#{__dirname}/../../public"
 
+  clients = {}
 
-  track = "wimbledon"
+  io.sockets.on "connection", (client) ->
+    console.log "Connected!", client.id
 
-  changeTrack = (_track, client) ->
-    @twit.stream "statuses/filter",
-      track: _track
-    , (stream) ->
-      stream.on "data", (data) ->
-        client.emit "message", data
+    changeTrack = (_track, userId) ->
+      console.log 'Client ID: ', client.id
+      twitterSession = clients[userId].twitterSession
+      console.log 'twitterSession: ', twitterSession
+      twitterSession.stream "statuses/filter",
+        track: _track
+      , (stream) ->
+        stream.on "data", (data) ->
+          # console.log data
+          client.emit "message", data
 
-      stream.on "destroy", (response) ->
-        console.log "Destroying stream..."
+        stream.on "destroy", (response) ->
+          console.log "Destroying stream..."
 
-  socket.on "connection", (client) ->
-    console.log "Connected!"
-    changeTrack track, client
-    client.on "change_track", (_track) ->
-      track = _track.track
+
+    # changeTrack track, client
+    client.on "change_track", (payload) ->
+      track = payload.track
+      userId = payload.userId
       console.log "Using track(s): ", track
-      changeTrack track, client
+
+      changeTrack track, userId
 
   app.get '/', (req, res, next)-> 
     userId = req.session.passport?.user
     if userId
       User.findOne id_str: userId, (err, user)=>
-        @twit = new twitter _.extend keys, 
+        twitterSession = new twitter _.extend keys, 
           access_token_key    : user.token
           access_token_secret : user.tokenSecret
-        res.render "index", user
+
+        clients[userId] = 
+          twitterSession : twitterSession
+          user           : user
+
+        res.render "index", {user: user, userId : userId}
     else
       res.redirect "/login"
 

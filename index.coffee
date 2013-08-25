@@ -21,10 +21,10 @@ app.set("view engine", "jade")
 mongoose.connect('mongodb://localhost/twitterio');
 
 server = http.createServer(app)
-socket = require("socket.io").listen(server)
+io = require("socket.io").listen(server)
 
 login           = require("./lib/login")()
-twitterio       = require("./lib/stream")(socket)
+twitterio       = require("./lib/stream")(io)
 
 app.use '/login', login
 app.use '/twitterio', twitterio
