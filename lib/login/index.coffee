@@ -12,7 +12,7 @@ module.exports = ->
   app.use express.cookieSession secret: "doyouwannaknowmysecret?"
   app.set "views", __dirname + "/views"
 
-  app.use express.static(__dirname + "/../../public")
+  app.use express.static "#{__dirname}/../../public"
   app.use passport.initialize()
   app.use passport.session()
   app.use app.router
