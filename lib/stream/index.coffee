@@ -23,9 +23,7 @@ module.exports = (io)->
     console.log "Connected!", client.id
 
     changeTrack = (_track, userId) ->
-      console.log 'Client ID: ', client.id
       twitterSession = clients[userId].twitterSession
-      console.log 'twitterSession: ', twitterSession
       twitterSession.stream "statuses/filter",
         track: _track
       , (stream) ->
