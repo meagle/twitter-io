@@ -30,14 +30,11 @@ module.exports = (io)->
         track: _track
       , (stream) ->
         stream.on "data", (data) ->
-          # console.log data
           client.emit "message", data
 
         stream.on "destroy", (response) ->
           console.log "Destroying stream..."
 
-
-    # changeTrack track, client
     client.on "change_track", (payload) ->
       track = payload.track
       userId = payload.userId
