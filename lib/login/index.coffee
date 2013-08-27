@@ -9,8 +9,16 @@ User        = require "../models/user"
 module.exports = ->
   app = express()
 
+  compile = (str, path) ->
+    stylus(str).set("filename", path).use nib()
+
   app.use express.cookieSession secret: "doyouwannaknowmysecret?"
   app.set "views", __dirname + "/views"
+
+  app.use stylus.middleware(
+    src: "#{__dirname}/../../public"
+    compile: compile
+  )
 
   app.use express.static "#{__dirname}/../../public"
   app.use passport.initialize()

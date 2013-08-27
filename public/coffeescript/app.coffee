@@ -54,3 +54,16 @@ define (require)->
         track   : $(".search-query").val()
         userId  : $(".search-query").data 'userid'
 
+    $(".pause").on 'click', (e)->
+      e.preventDefault()
+      if $(@).hasClass 'run'
+        socket.emit 'pause_stream'
+        $(@).html 'Resume'
+      else
+        socket.emit 'resume_stream'
+        $(@).html 'Pause'
+      $(@).toggleClass 'run'
+
+
+
+

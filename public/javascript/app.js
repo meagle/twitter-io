@@ -30,13 +30,24 @@
       socket.on("message", function(data) {
         return tweets.add(data);
       });
-      return $("form").on("submit", function(e) {
+      $("form").on("submit", function(e) {
         e.preventDefault();
         console.log("Changing track", $(".search-query").data('userid'), $(".search-query").val());
         return socket.emit("change_track", {
           track: $(".search-query").val(),
           userId: $(".search-query").data('userid')
         });
+      });
+      return $(".pause").on('click', function(e) {
+        e.preventDefault();
+        if ($(this).hasClass('run')) {
+          socket.emit('pause_stream');
+          $(this).html('Resume');
+        } else {
+          socket.emit('resume_stream');
+          $(this).html('Pause');
+        }
+        return $(this).toggleClass('run');
       });
     });
   });

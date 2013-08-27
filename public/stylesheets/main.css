@@ -2,11 +2,19 @@
   margin-top: 15px;
 }
 .container form.form-search {
+  position: relative;
   margin-bottom: 0;
   border-radius: 0;
 }
 .container form.form-search input.btn {
   margin-left: 5px;
+}
+.container form.form-search a.pause {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  text-decoration: none;
+  cursor: pointer;
 }
 .tweets-container {
   border-left: 1px solid #d3d3d3;

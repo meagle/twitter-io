@@ -10,8 +10,16 @@ _           = require 'underscore'
 
 module.exports = (io)->
   app = express()
+  compile = (str, path) ->
+    stylus(str).set("filename", path).use nib()
 
   app.use express.cookieSession(secret: "doyouwannaknowmysecret?")
+
+  app.use stylus.middleware(
+    src: "#{__dirname}/../../public"
+    compile: compile
+  )
+
   app.use app.router
 
   app.set "views", __dirname + "/views"
@@ -22,16 +30,22 @@ module.exports = (io)->
   io.sockets.on "connection", (client) ->
     console.log "Connected!", client.id
 
+    paused = false
+
     changeTrack = (_track, userId) ->
-      twitterSession = clients[userId].twitterSession
+      twitterSession = _getTwitterSession userId
       twitterSession.stream "statuses/filter",
         track: _track
       , (stream) ->
         stream.on "data", (data) ->
-          client.emit "message", data
+          if data.user and not paused
+            client.emit "message", data
 
         stream.on "destroy", (response) ->
           console.log "Destroying stream..."
+
+    _getTwitterSession = (userId) ->
+      clients[userId].twitterSession
 
     client.on "change_track", (payload) ->
       track = payload.track
@@ -39,6 +53,13 @@ module.exports = (io)->
       console.log "Using track(s): ", track
 
       changeTrack track, userId
+
+    client.on 'pause_stream', ->
+      paused = true
+
+    client.on 'resume_stream', ->
+      paused = false
+
 
   app.get '/', (req, res, next)-> 
     userId = req.session.passport?.user
